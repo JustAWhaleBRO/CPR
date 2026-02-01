@@ -6,35 +6,52 @@
 using namespace std;
 using ll = long long;
 // Solve knapsack: N items, capacity W, weights w[i], values v[i]
-// ll solve(int N, int W, const vector<int>& w, const vector<int>& v) {
-//     vector<ll> dp(W + 1, 0); // Maximum total value of items with i weight
-//     for (int i = 0; i < N; i++) {
-//         int weight = w[i];
-//         int value = v[i];
-//
-//         for (int j = W; j >= weight; j--) {
-//             dp[j] = max(dp[j], dp[j - weight] + value);
-//         }
-//     }
-//     return dp[W];
-// }
-
 ll solve(int N, int W, const vector<int> &w, const vector<int> &v) {
-    vector<vector<ll>> dp(N + 1, vector<ll>(W + 1, 0));
+    vector<ll> dp(W + 1, 0);
     for (int i = 1; i <= N; i++) {
-        int curr_w = w[i - 1];
-        int cur_val = v[i - 1];
+        int cur_w = w[i - 1];
+        int cur_v = v[i - 1];
 
-        for (int weight = 0; weight <= W; weight++) {
-            dp[i][weight] = dp[i - 1][weight];
-
-            if (curr_w <= weight) {
-                dp[i][weight] = max(dp[i - 1][weight - curr_w] + cur_val, dp[i][weight]);
-            }
+        for (int weight = W; weight >= cur_w; weight--) {
+            dp[weight] = max(dp[weight], dp[weight - cur_w] + cur_v);
         }
     }
-    return dp[N][W];
+    return dp[W];
 }
+// ll solve(int N, int W, const vector<int> &w, const vector<int> &v) {
+//     vector<vector<ll>> dp(2, vector<ll>(W + 1, 0));
+//     for (int i = 1; i <= N; i++) {
+//         int cur_w = w[i - 1];
+//         int cur_v = v[i - 1];
+//
+//         for (int weight = 0; weight <= W; weight++) {
+//             dp[1][weight] = dp[0][weight];
+//
+//             if (cur_w <= weight) {
+//                 dp[1][weight] = max(dp[0][weight], dp[0][weight - cur_w] + cur_v);
+//             }
+//         }
+//         swap(dp[0], dp[1]);
+//     }
+//     return dp[0][W];
+// }
+
+// ll solve(int N, int W, const vector<int> &w, const vector<int> &v) {
+//     vector<vector<ll>> dp(N + 1, vector<ll>(W + 1, 0));
+//     for (int i = 1; i <= N; i++) {
+//         int curr_w = w[i - 1];
+//         int cur_val = v[i - 1];
+//
+//         for (int weight = 0; weight <= W; weight++) {
+//             dp[i][weight] = dp[i - 1][weight];
+//
+//             if (curr_w <= weight) {
+//                 dp[i][weight] = max(dp[i - 1][weight - curr_w] + cur_val, dp[i][weight]);
+//             }
+//         }
+//     }
+//     return dp[N][W];
+// }
 
 #ifndef USE_TEST_HARNESS
 int main() {
