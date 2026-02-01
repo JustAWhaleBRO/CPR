@@ -4,18 +4,36 @@
 #include <algorithm>
 
 using namespace std;
+using ll = long long;
 // Solve knapsack: N items, capacity W, weights w[i], values v[i]
-int solve(int N, int W, const vector<int>& w, const vector<int>& v) {
-    vector<int> dp(W + 1, 0); // Maximum total value of items with i weight exactly
-    for (int i = 0; i < N; i++) {
-        int weight = w[i];
-        int value = v[i];
+// ll solve(int N, int W, const vector<int>& w, const vector<int>& v) {
+//     vector<ll> dp(W + 1, 0); // Maximum total value of items with i weight
+//     for (int i = 0; i < N; i++) {
+//         int weight = w[i];
+//         int value = v[i];
+//
+//         for (int j = W; j >= weight; j--) {
+//             dp[j] = max(dp[j], dp[j - weight] + value);
+//         }
+//     }
+//     return dp[W];
+// }
 
-        for (int weight_already = W - weight; weight_already >= 0; weight_already--) {
-            dp[weight_already + weight] = max(dp[weight_already + weight], dp[weight_already] + value);
+ll solve(int N, int W, const vector<int> &w, const vector<int> &v) {
+    vector<vector<ll>> dp(N + 1, vector<ll>(W + 1, 0));
+    for (int i = 1; i <= N; i++) {
+        int curr_w = w[i - 1];
+        int cur_val = v[i - 1];
+
+        for (int weight = 0; weight <= W; weight++) {
+            dp[i][weight] = dp[i - 1][weight];
+
+            if (curr_w <= weight) {
+                dp[i][weight] = max(dp[i - 1][weight - curr_w] + cur_val, dp[i][weight]);
+            }
         }
     }
-    return *max_element(dp.begin(), dp.end());
+    return dp[N][W];
 }
 
 #ifndef USE_TEST_HARNESS
@@ -39,7 +57,7 @@ int main() {
 #include "TestHarness.h"
 
 int main() {
-    auto solver = [](int N, int W, const vector<int>& w, const vector<int>& v) -> int {
+    auto solver = [](int N, int W, const vector<int>& w, const vector<int>& v) -> ll {
         return solve(N, W, w, v);
     };
 
@@ -51,7 +69,7 @@ int main() {
     );
 
     // Sample 2 (will overflow 32-bit; this implementation caps at INT_MAX)
-    runTest("Sample2", solver, INT_MAX, 200,
+    runTest("Sample2", solver, 5000000000, 200,
         5, 5,
         vector<int>{1,1,1,1,1},
         vector<int>{1000000000,1000000000,1000000000,1000000000,1000000000}
