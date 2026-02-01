@@ -1,0 +1,54 @@
+# CLion/CMake build directories
+cmake-build-*/
+build/
+out/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+*.ninja
+.ninja_deps
+.ninja_log
+
+# Build artifacts
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# CLion IDE files
+.idea/
+*.iml
+.DS_Store
+
+# Debugging files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Temporary files
+*.swp
+*.swo
+*~
+.cache/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Testing
+Testing/
+*.log
