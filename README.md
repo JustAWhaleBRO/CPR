@@ -12,10 +12,10 @@
 
 **Choose your starting point:**
 
-| Branch | Command | What You Get |
-|--------|---------|--------------|
-| `skeleton` | `git clone -b skeleton https://github.com/<user>/CPR.git` | Empty project, no solutions—start fresh |
-| `main` | `git clone https://github.com/<user>/CPR.git` | Includes example solutions for reference |
+| Branch | Command | What You Get                                            |
+|--------|---------|---------------------------------------------------------|
+| `skeleton` | `git clone -b skeleton https://github.com/<user>/CPR.git` | Empty project, no solutions—start fresh                 |
+| `main` | `git clone https://github.com/<user>/CPR.git` | Includes *my* solutions for *my* problems I have solved |
 
 **Then build:**
 ```bash
