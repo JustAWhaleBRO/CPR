@@ -1,38 +1,33 @@
 #!/bin/bash
 # Extract AtCoder submission code from a dual-mode file
 # Usage: extract <problem_name>
-# Can be run from anywhere inside the at_coder directory
+# Can be run from anywhere inside the CPR project
 # Example: extract z-frog1
 
 if [ -z "$1" ]; then
     echo "Usage: extract <problem_name>"
     echo "Example: extract z-frog1"
     echo ""
-    echo "Can be run from anywhere inside the at_coder directory"
+    echo "Can be run from anywhere inside the CPR project"
     exit 1
 fi
 
 PROBLEM_NAME="$1"
 
-# Find the at_coder directory by searching upwards
-current_dir="$PWD"
-atcoder_dir=""
+# Get the at_coder directory relative to this script's location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+atcoder_dir="$SCRIPT_DIR"
 
-while [ "$current_dir" != "/" ]; do
-    if [ "$(basename "$current_dir")" = "at_coder" ]; then
-        atcoder_dir="$current_dir"
-        break
-    fi
-    current_dir="$(dirname "$current_dir")"
-done
-
-if [ -z "$atcoder_dir" ]; then
-    echo "Error: Not in at_coder directory or any of its subdirectories"
+if [ ! -d "$atcoder_dir" ]; then
+    echo "Error: at_coder directory not found at $atcoder_dir"
     exit 1
 fi
 
 # Search for the problem folder in all subdirectories
-mapfile -t found_dirs < <(find "$atcoder_dir" -type d -name "$PROBLEM_NAME" 2>/dev/null)
+found_dirs=()
+while IFS= read -r dir; do
+    found_dirs+=("$dir")
+done < <(find "$atcoder_dir" -type d -name "$PROBLEM_NAME" 2>/dev/null)
 
 if [ ${#found_dirs[@]} -eq 0 ]; then
     echo "Error: Problem folder '$PROBLEM_NAME' not found in at_coder directory"
@@ -57,12 +52,19 @@ echo "=============================================="
 echo ""
 
 # Extract from ATCODER SUBMISSION marker to END ATCODER SUBMISSION marker
-# Remove comment lines and preprocessor directives
+# Remove:
+#   - ATCODER SUBMISSION markers
+#   - #ifndef/#endif preprocessor directives
+#   - #include "Debug.h"
+#   - All dbg macro calls (dbg, dbg_*, cdbg)
 sed -n '/ATCODER SUBMISSION (copy from here)/,/END ATCODER SUBMISSION/p' "$FILE" | \
     grep -v "ATCODER SUBMISSION" | \
     grep -v "END ATCODER SUBMISSION" | \
     grep -v "^#ifndef" | \
-    grep -v "^#endif"
+    grep -v "^#endif" | \
+    grep -v 'Debug.h' | \
+    grep -E -v '^[[:space:]]*dbg' | \
+    grep -E -v '^[[:space:]]*cdbg'
 
 echo ""
 echo "=============================================="

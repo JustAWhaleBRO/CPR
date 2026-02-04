@@ -19,12 +19,17 @@ ll solve(int N, const vector<ll>& a) {
     dbg_section("After base case");
     dbg_dp2d_labeled(dp, "L", "R");
 
-    for (int L = 0; L < N; L++) {
-        for (int R = L + 1; R < N; R++) {
+    for (int L = N - 1; L >= 0; L--) {
+        for (int R = L; R < N; R++) {
+
+            if (L == R) continue;
+
             ll takeLeft = a[L] - dp[L + 1][R];
             ll takeRight = a[R] - dp[L][R - 1];
             dp[L][R] = max(takeLeft, takeRight);
             dbg_iter(L, R, takeLeft, takeRight, dp[L][R]);
+            dbg_dp2d_labeled(dp, "L", "R");
+
         }
     }
 

@@ -11,7 +11,7 @@ make build                           # Build all
 make list                            # List targets
 make clean                           # Clean build
 make help                            # Show help
-extract <problem>                    # AtCoder submission (in at_coder/)
+extract <problem>                    # AtCoder submission (from anywhere in CPR)
 ```
 
 ---
@@ -54,8 +54,8 @@ make run-debug l-deque Sample4
 # 3. Fix, verify all pass
 make run l-deque
 
-# 4. Extract for submission
-cd src/at_coder && extract l-deque
+# 4. Extract for submission (from anywhere in CPR)
+extract l-deque
 ```
 
 ---
