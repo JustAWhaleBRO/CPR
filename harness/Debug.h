@@ -640,12 +640,12 @@ void dbgDP2D(const std::string& name, const std::vector<std::vector<T>>& dp, int
     }
     maxW = std::max(maxW, 2); // minimum width
 
-    // Calculate row label width: max of colLabel length and largest row index
+    // Calculate row label width: max of rowLabel length and largest row index
     int maxRowIdx = rows > 0 ? (int)std::to_string(rows - 1).length() : 1;
-    int rowLabelW = std::max((int)colLabel.length(), maxRowIdx);
+    int rowLabelW = std::max((int)rowLabel.length(), maxRowIdx);
 
-    // Header label is "colLabel\rowLabel" - calculate its total width
-    std::string headerLabel = colLabel + "\\" + rowLabel;
+    // Header label is "rowLabel\colLabel" - calculate its total width
+    std::string headerLabel = rowLabel + "\\" + colLabel;
     int headerLabelW = (int)headerLabel.length();
     // The first column width should accommodate both the header label and row indices
     int firstColW = std::max(headerLabelW, rowLabelW);
@@ -697,12 +697,12 @@ void dbgDP2D(const std::string& name, T (&dp)[R][C], int line,
         maxW = std::max(maxW, (int)std::to_string(j).length());
     }
 
-    // Calculate row label width: max of colLabel length and largest row index
+    // Calculate row label width: max of rowLabel length and largest row index
     int maxRowIdx = R > 0 ? (int)std::to_string(R - 1).length() : 1;
-    int rowLabelW = std::max((int)colLabel.length(), maxRowIdx);
+    int rowLabelW = std::max((int)rowLabel.length(), maxRowIdx);
 
-    // Header label is "colLabel\rowLabel" - calculate its total width
-    std::string headerLabel = colLabel + "\\" + rowLabel;
+    // Header label is "rowLabel\colLabel" - calculate its total width
+    std::string headerLabel = rowLabel + "\\" + colLabel;
     int headerLabelW = (int)headerLabel.length();
     // The first column width should accommodate both the header label and row indices
     int firstColW = std::max(headerLabelW, rowLabelW);
