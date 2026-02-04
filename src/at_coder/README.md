@@ -23,16 +23,23 @@ For bash, use `~/.bashrc` instead. For different paths, adjust accordingly.
 
 ## Usage
 
-From **anywhere** inside `at_coder/`:
+From **anywhere** inside the CPR project:
 
 ```bash
-cd src/at_coder
+# From project root
+cd ~/CLionProjects/CPR
 extract i-coins
 
-cd src/at_coder/educational_dp_contest
+# From leetcode directory
+cd src/leetcode
 extract h-grid1
 
-cd src/at_coder/educational_dp_contest/i-coins
+# From harness directory
+cd harness
+extract l-deque
+
+# From at_coder or any subdirectory
+cd src/at_coder/educational_dp_contest
 extract i-coins
 ```
 
@@ -62,7 +69,7 @@ at_coder/
 
 1. Create contest folder: `mkdir abc_350`
 2. Add problem folders with `problem.cpp` files
-3. Run `extract problem-name` – works automatically!
+3. Run `extract problem-name` from anywhere in CPR – works automatically!
 
 ---
 
@@ -71,7 +78,7 @@ at_coder/
 | Issue | Solution |
 |-------|----------|
 | `command not found: extract` | `source ~/.zshrc` or restart terminal |
-| `File not found` | Make sure you're inside `at_coder/` directory |
+| `Problem folder not found` | Check spelling or verify folder exists in `at_coder/` |
 | Not executable | `chmod +x src/at_coder/extract_atcoder.sh` |
 
 ---

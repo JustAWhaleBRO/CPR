@@ -188,8 +188,8 @@ Here's what solving a problem looks like:
 4. Failing test? Debug it:
    make run-debug 1_two_sum Test2  # Shows debug output only for Test2
 
-5. Fixed? Extract for submission:
-   cd src/leetcode && extract 1_two_sum
+5. Fixed? Extract for submission (from anywhere in CPR):
+   extract 1_two_sum
    # Outputs clean code without any debug statements
 
 6. Paste into LeetCode:
