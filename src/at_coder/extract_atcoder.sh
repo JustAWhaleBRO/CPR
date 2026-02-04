@@ -1,33 +1,25 @@
 #!/bin/bash
 # Extract AtCoder submission code from a dual-mode file
 # Usage: extract <problem_name>
-# Can be run from anywhere inside the at_coder directory
+# Can be run from anywhere inside the CPR project
 # Example: extract z-frog1
 
 if [ -z "$1" ]; then
     echo "Usage: extract <problem_name>"
     echo "Example: extract z-frog1"
     echo ""
-    echo "Can be run from anywhere inside the at_coder directory"
+    echo "Can be run from anywhere inside the CPR project"
     exit 1
 fi
 
 PROBLEM_NAME="$1"
 
-# Find the at_coder directory by searching upwards
-current_dir="$PWD"
-atcoder_dir=""
+# Get the at_coder directory relative to this script's location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+atcoder_dir="$SCRIPT_DIR"
 
-while [ "$current_dir" != "/" ]; do
-    if [ "$(basename "$current_dir")" = "at_coder" ]; then
-        atcoder_dir="$current_dir"
-        break
-    fi
-    current_dir="$(dirname "$current_dir")"
-done
-
-if [ -z "$atcoder_dir" ]; then
-    echo "Error: Not in at_coder directory or any of its subdirectories"
+if [ ! -d "$atcoder_dir" ]; then
+    echo "Error: at_coder directory not found at $atcoder_dir"
     exit 1
 fi
 
