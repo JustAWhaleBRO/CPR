@@ -98,7 +98,8 @@ int main() {
 
 const int NULL_RET = -999;
 
-int main() {
+int main(int argc, char* argv[]) {
+    PARSE_TEST_ARGS(argc, argv);
 
     // Test Case 2: Complex LRU Eviction Logic
     // Sequence:

@@ -91,7 +91,8 @@ int main() {
 #include "TestHarness.h"
 #include <iostream>
 
-int main() {
+int main(int argc, char* argv[]) {
+    PARSE_TEST_ARGS(argc, argv);
     cout << "=== Neural Network Generation Optimizer Tests ===\n\n";
 
     vector<int> case0 = {3, 3, 6};

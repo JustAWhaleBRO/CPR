@@ -253,7 +253,8 @@ int main() {
 #include "TestHarness.h"
 
 // Main Test Runner
-int main() {
+int main(int argc, char* argv[]) {
+  PARSE_TEST_ARGS(argc, argv);
   // 1. Prepare Input Data (Raw Commands)
   std::vector<std::string> input_commands = {
       "Init pineTree:3 oakTree:1",

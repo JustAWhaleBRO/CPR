@@ -27,7 +27,8 @@ int main() {
 // Test harness mode - for local testing
 #include "TestHarness.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    PARSE_TEST_ARGS(argc, argv);
     Solution sol;
 
     // Pattern 1: Single vector input, vector output

@@ -34,7 +34,8 @@ int main() {
 #ifdef USE_TEST_HARNESS
 #include "TestHarness.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    PARSE_TEST_ARGS(argc, argv);
 
     auto solver = [](const int& N, const vector<ll>& a) -> ll {
         return solve(N, a);

@@ -55,7 +55,8 @@ int main() {
 #ifdef USE_TEST_HARNESS
 #include "TestHarness.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    PARSE_TEST_ARGS(argc, argv);
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 

@@ -1,15 +1,33 @@
 // ==================== ATCODER SUBMISSION (copy from here) ====================
 #include <iostream>
 #include <vector>
+#include "Debug.h"
 
 using namespace std;
 using ll = long long;
 
 const ll MOD = 1e9 + 7;
 
+void add_self(ll &a, ll b) {
+    a += b;
+    if (a >= MOD) a -= MOD;
+}
+
 ll solve(int N, int K, const vector<int>& a) {
-    // TODO: Implement the solution
-    return 0;
+    vector<ll> dp(K + 1); // dp[i] number of combinations using i candies
+    dp[0] = 1;
+
+    for (int child = 0; child < N; child++) {
+        for (int used = K; used >= 0; used--) {
+            for (int give = 0; give <= min(a[child], used - K); give++) {
+                add_self(dp[used + give], dp[used]);
+                dbg_iter(child, used, give);
+                dbg_dp(dp);
+
+            }
+        }
+    }
+    return dp[K];
 }
 
 #ifndef USE_TEST_HARNESS
@@ -36,9 +54,10 @@ int main() {
 #ifdef USE_TEST_HARNESS
 #include "TestHarness.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    PARSE_TEST_ARGS(argc, argv);
 
-    auto solver = [](const int& N, const int& K, const vector<int>& a) -> ll {
+    auto solver = [](const int N, const int& K, const vector<int>& a) -> ll {
         return solve(N, K, a);
     };
 

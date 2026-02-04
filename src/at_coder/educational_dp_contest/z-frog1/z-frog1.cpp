@@ -43,7 +43,8 @@ int main() {
 // Test harness mode - for local testing
 #include "TestHarness.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    PARSE_TEST_ARGS(argc, argv);
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
