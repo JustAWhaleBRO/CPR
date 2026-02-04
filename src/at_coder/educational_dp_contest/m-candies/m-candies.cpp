@@ -8,27 +8,54 @@ using ll = long long;
 
 const ll MOD = 1e9 + 7;
 
-void add_self(ll &a, ll b) {
-    a += b;
-    if (a >= MOD) a -= MOD;
+inline ll mod_add(ll a, ll b) {
+    ll res = a + b;
+    if (res >= MOD) return res - MOD;
+    return res;
+}
+inline ll mod_sub(ll a, ll b) {
+    ll res = a - b;
+    if (res < 0) return res + MOD;
+    return res;
 }
 
 ll solve(int N, int K, const vector<int>& a) {
-    vector<ll> dp(K + 1); // dp[i] number of combinations using i candies
+    vector<ll> dp(K + 1);
     dp[0] = 1;
+    vector<ll> prefix_sum(K + 2);
 
-    for (int child = 0; child < N; child++) {
-        for (int used = K; used >= 0; used--) {
-            for (int give = 0; give <= min(a[child], used - K); give++) {
-                add_self(dp[used + give], dp[used]);
-                dbg_iter(child, used, give);
-                dbg_dp(dp);
+    for (int child = 1; child <= N; child++) {
 
-            }
+        for (int j = 0; j <= K; j++) {
+            prefix_sum[j + 1] = mod_add(prefix_sum[j], dp[j]);
+        }
+
+        for (int candies = K; candies >= 0; candies--) {
+            int R_idx = candies + 1;
+            int L_idx = max(0, candies - a[child - 1]);
+            ll count = mod_sub(prefix_sum[R_idx], prefix_sum[L_idx]);
+
+            dp[candies] = count;
         }
     }
     return dp[K];
 }
+
+// ll solve(int N, int K, const vector<int>& a) {
+//     vector<vector<ll>> dp(N + 1, vector<ll>(K + 1));
+//     dp[0][0] = 1;
+//
+//     for (int child = 1; child <= N; child++) {
+//         for (int candies = 0; candies <= K; candies++) {
+//
+//             int limit = min(a[child - 1], candies);
+//             for (int give = 0; give <= limit; give++) {
+//                 dp[child][candies] += dp[child - 1][candies - give];
+//             }
+//         }
+//     }
+//     return dp[N][K];
+// }
 
 #ifndef USE_TEST_HARNESS
 #define NO_DEBUG
