@@ -1,6 +1,4 @@
-#include "TestHarness.h"
-
-// [Standard Includes needed for the Solution]
+// ==================== LEETCODE SUBMISSION (copy from here) ====================
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
@@ -13,9 +11,7 @@
 #include <memory>
 #include <iostream>
 
-// =============================================================================
-// SECTION 1: The Solution Class (SquirrelResearch)
-// =============================================================================
+// Solution Class (SquirrelResearch)
 class SquirrelResearch {
  private:
   struct Nut {
@@ -246,10 +242,17 @@ std::vector<std::string> run_squirrel_simulation(const std::vector<std::string>&
   return results;
 }
 
-// =============================================================================
-// SECTION 3: Main Test Runner
-// =============================================================================
+#ifndef USE_TEST_HARNESS
+int main() {
+    return 0;
+}
+#endif
+// ==================== END LEETCODE SUBMISSION ====================
 
+#ifdef USE_TEST_HARNESS
+#include "TestHarness.h"
+
+// Main Test Runner
 int main() {
   // 1. Prepare Input Data (Raw Commands)
   std::vector<std::string> input_commands = {
@@ -281,3 +284,4 @@ int main() {
 
   return 0;
 }
+#endif

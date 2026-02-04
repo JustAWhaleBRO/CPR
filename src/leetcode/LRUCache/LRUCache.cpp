@@ -1,4 +1,4 @@
-#include "TestHarness.h"
+// ==================== LEETCODE SUBMISSION (copy from here) ====================
 #include <unordered_map>
 
 using namespace std;
@@ -85,6 +85,16 @@ public:
         }
     }
 };
+
+#ifndef USE_TEST_HARNESS
+int main() {
+    return 0;
+}
+#endif
+// ==================== END LEETCODE SUBMISSION ====================
+
+#ifdef USE_TEST_HARNESS
+#include "TestHarness.h"
 
 const int NULL_RET = -999;
 
@@ -207,5 +217,6 @@ int main() {
 
     return 0;
 }
+#endif
 
 
