@@ -10,10 +10,10 @@ One-time setup to enable the `extract` command:
 
 ```bash
 # Make executable
-chmod +x ~/CLionProjects/CPR/src/at_coder/extract_atcoder.sh
+chmod +x ~/<YOUR-CPR-PATH>/src/at_coder/extract_atcoder.sh
 
 # Add alias (zsh)
-echo 'alias extract="$HOME/CLionProjects/CPR/src/at_coder/extract_atcoder.sh"' >> ~/.zshrc
+echo 'alias extract="$HOME/<YOUR-CPR-PATH>CPR/src/at_coder/extract_atcoder.sh"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
@@ -27,7 +27,7 @@ From **anywhere** inside the CPR project:
 
 ```bash
 # From project root
-cd ~/CLionProjects/CPR
+cd ~/<YOUR-CPR-PATH>/CPR
 extract i-coins
 
 # From leetcode directory
