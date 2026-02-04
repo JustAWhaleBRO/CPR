@@ -52,12 +52,19 @@ echo "=============================================="
 echo ""
 
 # Extract from ATCODER SUBMISSION marker to END ATCODER SUBMISSION marker
-# Remove comment lines and preprocessor directives
+# Remove:
+#   - ATCODER SUBMISSION markers
+#   - #ifndef/#endif preprocessor directives
+#   - #include "Debug.h"
+#   - All dbg macro calls (dbg, dbg_*, cdbg)
 sed -n '/ATCODER SUBMISSION (copy from here)/,/END ATCODER SUBMISSION/p' "$FILE" | \
     grep -v "ATCODER SUBMISSION" | \
     grep -v "END ATCODER SUBMISSION" | \
     grep -v "^#ifndef" | \
-    grep -v "^#endif"
+    grep -v "^#endif" | \
+    grep -v 'Debug.h' | \
+    grep -v '^\s*dbg' | \
+    grep -v '^\s*cdbg'
 
 echo ""
 echo "=============================================="
