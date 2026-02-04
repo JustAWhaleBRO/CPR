@@ -54,7 +54,6 @@ ll solve(int N, int W, const vector<int> &w, const vector<int> &v) {
 // }
 
 #ifndef USE_TEST_HARNESS
-#define NO_DEBUG
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);

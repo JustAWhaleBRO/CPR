@@ -32,10 +32,7 @@ if [ -z "$atcoder_dir" ]; then
 fi
 
 # Search for the problem folder in all subdirectories
-found_dirs=()
-while IFS= read -r line; do
-    found_dirs+=("$line")
-done < <(find "$atcoder_dir" -type d -name "$PROBLEM_NAME" 2>/dev/null)
+mapfile -t found_dirs < <(find "$atcoder_dir" -type d -name "$PROBLEM_NAME" 2>/dev/null)
 
 if [ ${#found_dirs[@]} -eq 0 ]; then
     echo "Error: Problem folder '$PROBLEM_NAME' not found in at_coder directory"

@@ -1,17 +1,41 @@
 // ==================== ATCODER SUBMISSION (copy from here) ====================
+
 #include <iostream>
 #include <vector>
+#include "Debug.h"
 
 using namespace std;
 using ll = long long;
 
 ll solve(int N, const vector<ll>& a) {
-    // TODO: Implement the solution
-    return 0;
+    dbg(N, a);  // Print input
+
+    vector<vector<ll>> dp(N, vector<ll>(N)); // dp[L][R] -> Maximum X - Y given the subarray a[L...R]
+
+    // Base case: single element
+    for (int i = 0; i < N; i++) {
+        dp[i][i] = a[i];
+    }
+    dbg_section("After base case");
+    dbg_dp2d_labeled(dp, "L", "R");
+
+    for (int L = 0; L < N; L++) {
+        for (int R = L + 1; R < N; R++) {
+            ll takeLeft = a[L] - dp[L + 1][R];
+            ll takeRight = a[R] - dp[L][R - 1];
+            dp[L][R] = max(takeLeft, takeRight);
+            dbg_iter(L, R, takeLeft, takeRight, dp[L][R]);
+        }
+    }
+
+    dbg_section("Final DP table");
+    dbg_dp2d_labeled(dp, "L", "R");
+    dbg(dp[0][N - 1]);
+
+    return dp[0][N - 1];
 }
 
 #ifndef USE_TEST_HARNESS
-#define NO_DEBUG
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
@@ -34,7 +58,8 @@ int main() {
 #ifdef USE_TEST_HARNESS
 #include "TestHarness.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    PARSE_TEST_ARGS(argc, argv);
 
     auto solver = [](const int& N, const vector<ll>& a) -> ll {
         return solve(N, a);
@@ -66,6 +91,13 @@ int main() {
     runTest("Sample4", solver, 4999999995LL, 500,
         10,
         vector<ll>{1000000000, 1, 1000000000, 1, 1000000000, 1, 1000000000, 1, 1000000000, 1}
+    );
+
+    // Sample 5: N=6, a=[4, 2, 9, 7, 1, 5]
+    // Expected: 2
+    runTest("Sample5", solver, 2LL, 500,
+        6,
+        vector<ll>{4, 2, 9, 7, 1, 5}
     );
 
     return 0;

@@ -17,6 +17,38 @@
 #include <utility>
 #include <limits>
 #include <type_traits>
+#include <cstdlib>
+
+// ==================== RUNTIME DEBUG CONTROL ====================
+// Check environment variable DEBUG_ENABLED at runtime
+inline bool isDebugEnabled() {
+    static int enabled = -1; // -1 = not checked, 0 = disabled, 1 = enabled
+    if (enabled == -1) {
+        const char* env = std::getenv("DEBUG_ENABLED");
+        enabled = (env && std::string(env) == "1") ? 1 : 0;
+    }
+    return enabled == 1;
+}
+
+// Conditional output stream - only outputs if debug is enabled
+struct ConditionalCerr {
+    template<typename T>
+    ConditionalCerr& operator<<(const T& val) {
+        if (isDebugEnabled()) {
+            std::cerr << val;
+        }
+        return *this;
+    }
+    // Handle manipulators like std::endl
+    ConditionalCerr& operator<<(std::ostream& (*manip)(std::ostream&)) {
+        if (isDebugEnabled()) {
+            std::cerr << manip;
+        }
+        return *this;
+    }
+};
+
+inline ConditionalCerr cdbg;
 
 // ==================== COLOR CODES ====================
 #ifdef NO_COLOR
@@ -112,8 +144,10 @@ dbgStr(T* head) {
 
 // Macro to debug linked list
 #define dbg_list(head) \
-    std::cerr << C_CYAN << "[" << __LINE__ << "] " << C_YELLOW << #head << C_RESET << " = " \
-              << C_GREEN << dbgStr(head) << C_RESET << std::endl
+    do { if (isDebugEnabled()) { \
+        std::cerr << C_CYAN << "[" << __LINE__ << "] " << C_YELLOW << #head << C_RESET << " = " \
+                  << C_GREEN << dbgStr(head) << C_RESET << std::endl; \
+    } } while(0)
 
 // ==================== BINARY TREE NODE SUPPORT ====================
 // Common LeetCode-style TreeNode
@@ -180,14 +214,14 @@ dbgStr(T* root) {
 
 // Macro to debug binary tree
 #define dbg_btree(root) \
-    do { \
+    do { if (isDebugEnabled()) { \
         std::cerr << C_CYAN << "[" << __LINE__ << "] " << C_YELLOW << #root << C_RESET << ":" << std::endl; \
         if (root) { \
             std::cerr << dbgStr(root); \
         } else { \
             std::cerr << C_DIM << "nullptr" << C_RESET << std::endl; \
         } \
-    } while(0)
+    } } while(0)
 
 // Level-order (BFS) representation of binary tree
 template<typename T>
@@ -219,7 +253,8 @@ dbgTreeBFS(const std::string& name, T* root, int line) {
     std::cerr << "]" << std::endl;
 }
 
-#define dbg_btree_bfs(root) dbgTreeBFS(#root, root, __LINE__)
+#define dbg_btree_bfs(root) \
+    do { if (isDebugEnabled()) { dbgTreeBFS(#root, root, __LINE__); } } while(0)
 
 // ==================== VECTOR ====================
 template<typename T>
@@ -385,8 +420,10 @@ void dbgPrint(const T& first, const Args&... rest) {
 
 // ==================== MAIN DEBUG MACRO ====================
 #define dbg(...) \
-    std::cerr << C_CYAN << "[" << __LINE__ << "] " << C_YELLOW << #__VA_ARGS__ << C_RESET << " = "; \
-    dbgPrint(__VA_ARGS__)
+    do { if (isDebugEnabled()) { \
+        std::cerr << C_CYAN << "[" << __LINE__ << "] " << C_YELLOW << #__VA_ARGS__ << C_RESET << " = "; \
+        dbgPrint(__VA_ARGS__); \
+    } } while(0)
 
 // ==================== ARRAY DEBUG (C-style) ====================
 template<typename T>
@@ -399,7 +436,8 @@ void dbgArray(const std::string& name, const T* arr, size_t n, int line) {
     std::cerr << "]" << std::endl;
 }
 
-#define dbg_arr(arr, n) dbgArray(#arr, arr, n, __LINE__)
+#define dbg_arr(arr, n) \
+    do { if (isDebugEnabled()) { dbgArray(#arr, arr, n, __LINE__); } } while(0)
 
 // ==================== 2D MATRIX DEBUG ====================
 template<typename T>
@@ -444,7 +482,8 @@ void dbgMatrix(const std::string& name, const std::vector<std::vector<T>>& mat, 
     }
 }
 
-#define dbg_mat(mat) dbgMatrix(#mat, mat, __LINE__)
+#define dbg_mat(mat) \
+    do { if (isDebugEnabled()) { dbgMatrix(#mat, mat, __LINE__); } } while(0)
 
 // ==================== 2D C-STYLE ARRAY DEBUG ====================
 template<typename T, size_t R, size_t C>
@@ -484,7 +523,8 @@ void dbgMatrix2D(const std::string& name, T (&arr)[R][C], int line) {
     }
 }
 
-#define dbg_mat2d(arr) dbgMatrix2D(#arr, arr, __LINE__)
+#define dbg_mat2d(arr) \
+    do { if (isDebugEnabled()) { dbgMatrix2D(#arr, arr, __LINE__); } } while(0)
 
 // ==================== GRAPH ADJACENCY LIST DEBUG ====================
 template<typename T>
@@ -503,8 +543,10 @@ void dbgGraph(const std::string& name, const std::vector<std::vector<T>>& adj, i
     }
 }
 
-#define dbg_graph(adj) dbgGraph(#adj, adj, __LINE__, true)
-#define dbg_ugraph(adj) dbgGraph(#adj, adj, __LINE__, false)
+#define dbg_graph(adj) \
+    do { if (isDebugEnabled()) { dbgGraph(#adj, adj, __LINE__, true); } } while(0)
+#define dbg_ugraph(adj) \
+    do { if (isDebugEnabled()) { dbgGraph(#adj, adj, __LINE__, false); } } while(0)
 
 // ==================== GRID/BOARD DEBUG (for char grids) ====================
 inline void dbgGrid(const std::string& name, const std::vector<std::string>& grid, int line) {
@@ -536,7 +578,8 @@ inline void dbgGrid(const std::string& name, const std::vector<std::string>& gri
     }
 }
 
-#define dbg_grid(grid) dbgGrid(#grid, grid, __LINE__)
+#define dbg_grid(grid) \
+    do { if (isDebugEnabled()) { dbgGrid(#grid, grid, __LINE__); } } while(0)
 
 // ==================== 1D DP TABLE DEBUG ====================
 template<typename T>
@@ -569,7 +612,8 @@ void dbgDP(const std::string& name, const std::vector<T>& dp, int line,
     std::cerr << std::endl;
 }
 
-#define dbg_dp(dp) dbgDP(#dp, dp, __LINE__)
+#define dbg_dp(dp) \
+    do { if (isDebugEnabled()) { dbgDP(#dp, dp, __LINE__); } } while(0)
 
 // ==================== 2D DP TABLE DEBUG ====================
 template<typename T>
@@ -689,21 +733,27 @@ void dbgDP2D(const std::string& name, T (&dp)[R][C], int line,
     }
 }
 
-#define dbg_dp2d(dp) dbgDP2D(#dp, dp, __LINE__)
-#define dbg_dp2d_labeled(dp, rowLabel, colLabel) dbgDP2D(#dp, dp, __LINE__, rowLabel, colLabel)
+#define dbg_dp2d(dp) \
+    do { if (isDebugEnabled()) { dbgDP2D(#dp, dp, __LINE__); } } while(0)
+#define dbg_dp2d_labeled(dp, rowLabel, colLabel) \
+    do { if (isDebugEnabled()) { dbgDP2D(#dp, dp, __LINE__, rowLabel, colLabel); } } while(0)
 
 // ==================== SECTION SEPARATOR ====================
 #define dbg_section(title) \
-    std::cerr << C_MAGENTA << "\n══════════ " << title << " ══════════" << C_RESET << std::endl
+    do { if (isDebugEnabled()) { \
+        std::cerr << C_MAGENTA << "\n══════════ " << title << " ══════════" << C_RESET << std::endl; \
+    } } while(0)
 
 // ==================== ITERATION MARKER ====================
 #define dbg_iter(i, ...) \
-    std::cerr << C_CYAN << "[" << __LINE__ << "] " << C_BLUE << "iter " << i << C_RESET << ": "; \
-    dbgPrint(__VA_ARGS__)
+    do { if (isDebugEnabled()) { \
+        std::cerr << C_CYAN << "[" << __LINE__ << "] " << C_BLUE << "iter " << i << C_RESET << ": "; \
+        dbgPrint(__VA_ARGS__); \
+    } } while(0)
 
 // ==================== CONDITIONAL DEBUG ====================
 #define dbg_if(cond, ...) \
-    if (cond) { dbg(__VA_ARGS__); }
+    do { if (isDebugEnabled() && (cond)) { dbg(__VA_ARGS__); } } while(0)
 
 // ==================== BINARY REPRESENTATION ====================
 template<typename T>
@@ -717,8 +767,10 @@ void dbgBinary(const std::string& name, T val, int bits, int line) {
     std::cerr << C_RESET << std::endl;
 }
 
-#define dbg_bin(val, bits) dbgBinary(#val, val, bits, __LINE__)
-#define dbg_bits(val) dbgBinary(#val, val, sizeof(val) * 8, __LINE__)
+#define dbg_bin(val, bits) \
+    do { if (isDebugEnabled()) { dbgBinary(#val, val, bits, __LINE__); } } while(0)
+#define dbg_bits(val) \
+    do { if (isDebugEnabled()) { dbgBinary(#val, val, sizeof(val) * 8, __LINE__); } } while(0)
 
 // ==================== RANGE DEBUG (for debugging subarray/substring) ====================
 template<typename T>
@@ -732,7 +784,8 @@ void dbgRange(const std::string& name, const std::vector<T>& v, size_t l, size_t
     std::cerr << "]" << std::endl;
 }
 
-#define dbg_range(v, l, r) dbgRange(#v, v, l, r, __LINE__)
+#define dbg_range(v, l, r) \
+    do { if (isDebugEnabled()) { dbgRange(#v, v, l, r, __LINE__); } } while(0)
 
 // ==================== TREE DEBUG (parent array representation) ====================
 inline void dbgTree(const std::string& name, const std::vector<int>& parent, int line) {
@@ -748,7 +801,8 @@ inline void dbgTree(const std::string& name, const std::vector<int>& parent, int
     }
 }
 
-#define dbg_tree(parent) dbgTree(#parent, parent, __LINE__)
+#define dbg_tree(parent) \
+    do { if (isDebugEnabled()) { dbgTree(#parent, parent, __LINE__); } } while(0)
 
 // ==================== DISABLE ALL DEBUG FOR SUBMISSION ====================
 // To disable: compile with -DNO_DEBUG or just remove the include

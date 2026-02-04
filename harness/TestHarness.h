@@ -12,6 +12,45 @@
 #include <thread>
 #include <type_traits>
 
+// --- Color codes (match Debug.h style) ---
+#ifdef NO_COLOR
+    #define TH_RESET   ""
+    #define TH_CYAN    ""
+    #define TH_GREEN   ""
+    #define TH_RED     ""
+    #define TH_MAGENTA ""
+#else
+    #define TH_RESET   "\033[0m"
+    #define TH_CYAN    "\033[36m"
+    #define TH_GREEN   "\033[32m"
+    #define TH_RED     "\033[31m"
+    #define TH_MAGENTA "\033[35m"
+#endif
+
+// --- Global test filter (set via command line) ---
+inline std::string& getTestFilter() {
+  static std::string filter = "";
+  return filter;
+}
+
+inline void setTestFilter(const std::string& f) {
+  getTestFilter() = f;
+}
+
+inline bool shouldRunTest(const std::string& testName) {
+  const std::string& filter = getTestFilter();
+  return filter.empty() || testName == filter;
+}
+
+// --- Helper macro to parse command line args in main() ---
+#define PARSE_TEST_ARGS(argc, argv) \
+  do { \
+    if (argc > 1) { \
+      setTestFilter(argv[1]); \
+      std::cerr << "Running only test: " << argv[1] << "\n\n"; \
+    } \
+  } while(0)
+
 
 // --- Helper: toString for simple types ---
 template <typename T> std::string toString(const T &val) {
@@ -92,6 +131,11 @@ void runTest(const std::string &testName,
              long long timeLimitMs = 500,
              Args&&... args) {
 
+  // Check if we should run this test (based on filter)
+  if (!shouldRunTest(testName)) {
+    return;  // Skip this test
+  }
+
   // Deduce return type R from the function call.
   using R = std::invoke_result_t<std::decay_t<Func>, std::decay_t<Args>...>;
 
@@ -127,36 +171,44 @@ void runTest(const std::string &testName,
   auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
       std::chrono::steady_clock::now() - start);
 
-  std::cout << "[Test " << testName << "] ";
-
   if (status == std::future_status::timeout) {
     // TIMEOUT CASE:
     // We detach the thread so we can stop waiting. The thread continues
     // in the background.
     worker.detach();
-    std::cout << "- FAIL (TLE: " << timeLimitMs << "+ ms)\n";
+
+    // Flush stderr to ensure any debug output appears before test result
+    std::cerr << std::flush;
+    std::cerr << TH_MAGENTA << "══════════ Test: " << testName << " ══════════" << TH_RESET << "\n";
+    std::cerr << TH_RED << "✗ FAIL" << TH_RESET << " (TLE: " << timeLimitMs << "+ ms)\n\n";
   } else {
     // COMPLETION CASE:
-    // Join the thread to clean up resources.
+    // Join the thread FIRST to ensure all debug output is complete
     worker.join();
     
+    // Now flush stderr to ensure all debug output from worker thread is visible
+    std::cerr << std::flush;
+
     try {
       // Retrieve result (or rethrow exception from worker)
       R result = future.get();
       
       bool correct = isEqual(result, expected);
 
+      std::cerr << TH_MAGENTA << "══════════ Test: " << testName << " ══════════" << TH_RESET << "\n";
       if (!correct) {
-        std::cout << "- FAIL (" << elapsed.count() << " ms)\n"
+        std::cerr << TH_RED << "✗ FAIL" << TH_RESET << " (" << elapsed.count() << " ms)\n"
                   << "  Expected: " << toString(expected) << "\n"
-                  << "  Got:      " << toString(result) << "\n";
+                  << "  Got:      " << toString(result) << "\n\n";
       } else {
-        std::cout << "- PASS (" << elapsed.count() << " ms)\n";
+        std::cerr << TH_GREEN << "✓ PASS" << TH_RESET << " (" << elapsed.count() << " ms)\n\n";
       }
     } catch (const std::exception& e) {
-      std::cout << "- FAIL (Exception: " << e.what() << ")\n";
+      std::cerr << TH_MAGENTA << "══════════ Test: " << testName << " ══════════" << TH_RESET << "\n";
+      std::cerr << TH_RED << "✗ FAIL" << TH_RESET << " (Exception: " << e.what() << ")\n\n";
     } catch (...) {
-      std::cout << "- FAIL (Unknown Exception)\n";
+      std::cerr << TH_MAGENTA << "══════════ Test: " << testName << " ══════════" << TH_RESET << "\n";
+      std::cerr << TH_RED << "✗ FAIL" << TH_RESET << " (Unknown Exception)\n\n";
     }
   }
 }
