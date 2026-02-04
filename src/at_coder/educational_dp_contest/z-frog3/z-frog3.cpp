@@ -12,6 +12,7 @@ ll solve(int N, ll C, const vector<ll> &h) {
 }
 
 #ifndef USE_TEST_HARNESS
+#define NO_DEBUG
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);

@@ -6,11 +6,19 @@
 using namespace std;
 
 string solve(int N, int K, const vector<int>& a) {
-    // TODO: Implement the solution
-    return "First";
+    vector<bool> dp(K + 1, false);
+    for (int stones = 0; stones <= K; stones++) {
+        for (int x : a) {
+            if (x <= stones && !dp[stones - x]) {
+                dp[stones] = true;
+            }
+        }
+    }
+    return dp[K] ? "First" : "Second";
 }
 
 #ifndef USE_TEST_HARNESS
+#define NO_DEBUG
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
@@ -65,6 +73,20 @@ int main() {
     runTest("Sample4", solver, string("Second"), 500,
         3, 20,
         vector<int>{1, 2, 3}
+    );
+
+    // Sample 5: N=3, K=21, a=[1, 2, 3]
+    // Expected: First
+    runTest("Sample5", solver, string("First"), 500,
+        3, 21,
+        vector<int>{1, 2, 3}
+    );
+
+    // Sample 6: N=1, K=100000, a=[1]
+    // Expected: Second
+    runTest("Sample6", solver, string("Second"), 500,
+        1, 100000,
+        vector<int>{1}
     );
 
     return 0;

@@ -13,6 +13,7 @@ ll solve(ll H, ll W, int N, const vector<ll>& r, const vector<ll>& c) {
 }
 
 #ifndef USE_TEST_HARNESS
+#define NO_DEBUG
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);

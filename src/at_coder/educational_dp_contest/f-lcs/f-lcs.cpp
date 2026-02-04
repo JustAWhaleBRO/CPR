@@ -64,6 +64,7 @@ string solve(const string &s, const string &t) {
 }
 
 #ifndef USE_TEST_HARNESS
+#define NO_DEBUG
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);

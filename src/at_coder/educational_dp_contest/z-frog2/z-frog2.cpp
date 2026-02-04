@@ -19,6 +19,7 @@ int solve(int N, int K, const vector<int> &h) {
 }
 
 #ifndef USE_TEST_HARNESS
+#define NO_DEBUG
 // AtCoder submission mode - reads from stdin
 int main() {
     ios::sync_with_stdio(false);

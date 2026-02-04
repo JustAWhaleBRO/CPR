@@ -11,6 +11,7 @@ ll solve(int N, int M, const vector<int>& l, const vector<int>& r, const vector<
 }
 
 #ifndef USE_TEST_HARNESS
+#define NO_DEBUG
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
