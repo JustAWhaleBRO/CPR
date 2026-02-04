@@ -59,6 +59,10 @@ inline bool isEqual(const char* a, const std::string& b) {
 
 // Floating-point specialization with tolerance
 inline bool isEqual(const double& a, const double& b) {
+  // Handle special cases: inf and nan
+  if (std::isnan(a) || std::isnan(b)) return false;
+  if (std::isinf(a) || std::isinf(b)) return a == b;
+
   const double eps = 1e-9;
   return std::abs(a - b) <= eps * std::max(1.0, std::max(std::abs(a), std::abs(b)));
 }

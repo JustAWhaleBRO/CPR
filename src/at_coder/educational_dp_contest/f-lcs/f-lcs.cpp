@@ -87,7 +87,7 @@ int main() {
     };
 
     // Sample 1: "axyb", "abyxb" → Expected: "axb" or "ayb"
-    runTest("Sample1", solver, string("axb"), 500000,
+    runTest("Sample1", solver, string("axb"), 500,
         string("axyb"),
         string("abyxb")
     );
