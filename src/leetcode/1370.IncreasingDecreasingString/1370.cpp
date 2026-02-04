@@ -1,13 +1,9 @@
-//
-// Created by Kiet Van Tran on 28/10/2025.
-//
-#include "TestHarness.h"
+// ==================== LEETCODE SUBMISSION (copy from here) ====================
 #include <vector>
 #include <algorithm>
-#include <list>
+#include <string>
 using namespace std;
 
-// --- LeetCode Solution Class ---
 class Solution {
 public:
     string sortString(string s) {
@@ -19,7 +15,6 @@ public:
         }
 
         for (int i = 0; i < n; i++) {
-
             for (int i = 0; i < 26; i++) {
                 if (freq[i] > 0) {
                     res += ('a' + i);
@@ -37,10 +32,17 @@ public:
         return res;
     }
 };
-// --- End Solution ---
 
+#ifndef USE_TEST_HARNESS
+int main() {
+    return 0;
+}
+#endif
+// ==================== END LEETCODE SUBMISSION ====================
 
-// --- Main Function (Test Runner) ---
+#ifdef USE_TEST_HARNESS
+#include "TestHarness.h"
+
 int main() {
     Solution sol;
 
@@ -64,3 +66,4 @@ int main() {
 
     return 0;
 }
+#endif

@@ -1,6 +1,6 @@
-#include "TestHarness.h"
+// ==================== LEETCODE SUBMISSION (copy from here) ====================
 #include <vector>
-
+#include <algorithm>
 using namespace std;
 
 class Solution {
@@ -23,6 +23,7 @@ public:
         }
         return false;
     }
+
     int maxDistance(vector<int>& position, int m) {
         int ideal_distance = 1;
         int n = position.size();
@@ -43,41 +44,49 @@ public:
     }
 };
 
+#ifndef USE_TEST_HARNESS
+int main() {
+    return 0;
+}
+#endif
+// ==================== END LEETCODE SUBMISSION ====================
+
+#ifdef USE_TEST_HARNESS
+#include "TestHarness.h"
+
 int main() {
     Solution sol;
 
-    // Call runTest WITHOUT <int>
     runTest(
         "Test Case 1",
-        [&]() { // Compiler deduces 'Func'
-            std::vector<int> position = {1, 2, 3, 4, 7};
+        [&]() {
+            vector<int> position = {1, 2, 3, 4, 7};
             int m = 3;
             return sol.maxDistance(position, m);
         },
-        3 // Compiler deduces 'ExpectedType' as int
+        3
     );
 
-    // Call runTest WITHOUT <int>
     runTest(
         "Test Case 2",
-        [&]() { // Compiler deduces 'Func'
-            std::vector<int> position = {5, 4, 3, 2, 1, 1000000000};
+        [&]() {
+            vector<int> position = {5, 4, 3, 2, 1, 1000000000};
             int m = 2;
             return sol.maxDistance(position, m);
         },
-        999999999 // Compiler deduces 'ExpectedType' as int
+        999999999
     );
 
-    // Call runTest WITHOUT <int>
     runTest(
         "Test Case 3",
-        [&]() { // Compiler deduces 'Func'
-            std::vector<int> position = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        [&]() {
+            vector<int> position = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
             int m = 4;
             return sol.maxDistance(position, m);
         },
-        3 // Compiler deduces 'ExpectedType' as int
+        3
     );
 
     return 0;
 }
+#endif

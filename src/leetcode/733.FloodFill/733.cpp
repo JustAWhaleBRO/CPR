@@ -1,7 +1,4 @@
-//
-// Created by Kiet Van Tran on 01/11/2025.
-//
-#include "TestHarness.h"
+// ==================== LEETCODE SUBMISSION (copy from here) ====================
 #include <vector>
 #include <stack>
 using namespace std;
@@ -35,10 +32,16 @@ public:
     }
 };
 
-// --- End Solution ---
+#ifndef USE_TEST_HARNESS
+int main() {
+    return 0;
+}
+#endif
+// ==================== END LEETCODE SUBMISSION ====================
 
+#ifdef USE_TEST_HARNESS
+#include "TestHarness.h"
 
-// --- Main Function (Test Runner) ---
 int main() {
     Solution sol;
 
@@ -66,3 +69,4 @@ int main() {
 
     return 0;
 }
+#endif

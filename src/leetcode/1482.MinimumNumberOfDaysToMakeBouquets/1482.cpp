@@ -1,12 +1,8 @@
-//
-// Created by Kiet Van Tran on 28/10/2025.
-//
-#include "TestHarness.h"
+// ==================== LEETCODE SUBMISSION (copy from here) ====================
 #include <vector>
 #include <algorithm>
 using namespace std;
 
-// --- LeetCode Solution Class ---
 class Solution {
 public:
     bool canMakeBouquets(const vector<int>& bloomDay, int n, int k, int m, int optimal_day, int& bouquets_made) {
@@ -21,8 +17,8 @@ public:
         }
         bouquets_made += count / k;
         return bouquets_made >= m;
-
     }
+
     int minDays(vector<int>& bloomDay, int m, int k) {
         int n, optimal_day, max_val, min_val, count, bouquets_made, best_candidate;
         n = bloomDay.size();
@@ -49,55 +45,57 @@ public:
         return best_candidate;
     }
 };
-// --- End Solution ---
 
+#ifndef USE_TEST_HARNESS
+int main() {
+    return 0;
+}
+#endif
+// ==================== END LEETCODE SUBMISSION ====================
 
-// --- Main Function ---
+#ifdef USE_TEST_HARNESS
+#include "TestHarness.h"
+
 int main() {
     Solution sol;
 
     runTest(
         "LC1482 / Case 1",
-        [&](std::vector<int> bloomDay, int m, int k) {
+        [&](vector<int> bloomDay, int m, int k) {
             return sol.minDays(bloomDay, m, k);
         },
-        /* expected */ 3,
-        /* time ms */ 200,
-        std::vector<int>{1,10,3,10,2}, 3, 1
+        3, 200,
+        vector<int>{1,10,3,10,2}, 3, 1
     );
 
-    // Case 2
     runTest(
         "LC1482 / Case 2",
-        [&](std::vector<int> bloomDay, int m, int k) {
+        [&](vector<int> bloomDay, int m, int k) {
             return sol.minDays(bloomDay, m, k);
         },
-        /* expected */ -1,
-        /* time ms */ 200,
-        std::vector<int>{1,10,3,10,2}, 3, 2
+        -1, 200,
+        vector<int>{1,10,3,10,2}, 3, 2
     );
 
-    // Case 3
     runTest(
         "LC1482 / Case 3",
-        [&](std::vector<int> bloomDay, int m, int k) {
+        [&](vector<int> bloomDay, int m, int k) {
             return sol.minDays(bloomDay, m, k);
         },
-        /* expected */ 12,
-        /* time ms */ 200,
-        std::vector<int>{7,7,7,7,12,7,7}, 2, 3
+        12, 200,
+        vector<int>{7,7,7,7,12,7,7}, 2, 3
     );
 
     runTest(
-    "LC1482 / Case 4",
-    [&](std::vector<int> bloomDay, int m, int k) {
-        return sol.minDays(bloomDay, m, k);
-    },
-    /* expected */ 1000000000,
-    /* time ms */ 200,
-    std::vector<int>{1000000000, 1000000000}, 1, 1
+        "LC1482 / Case 4",
+        [&](vector<int> bloomDay, int m, int k) {
+            return sol.minDays(bloomDay, m, k);
+        },
+        1000000000, 200,
+        vector<int>{1000000000, 1000000000}, 1, 1
     );
 
     return 0;
 }
+#endif
 
