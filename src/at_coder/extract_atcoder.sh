@@ -24,7 +24,10 @@ if [ ! -d "$atcoder_dir" ]; then
 fi
 
 # Search for the problem folder in all subdirectories
-mapfile -t found_dirs < <(find "$atcoder_dir" -type d -name "$PROBLEM_NAME" 2>/dev/null)
+found_dirs=()
+while IFS= read -r dir; do
+    found_dirs+=("$dir")
+done < <(find "$atcoder_dir" -type d -name "$PROBLEM_NAME" 2>/dev/null)
 
 if [ ${#found_dirs[@]} -eq 0 ]; then
     echo "Error: Problem folder '$PROBLEM_NAME' not found in at_coder directory"
