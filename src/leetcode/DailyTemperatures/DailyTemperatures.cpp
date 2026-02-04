@@ -1,4 +1,4 @@
-#include "TestHarness.h"
+// ==================== LEETCODE SUBMISSION (copy from here) ====================
 #include <stack>
 #include <vector>
 #include <numeric>
@@ -29,7 +29,19 @@ public:
     }
 };
 
-// --- Main Function (Single vector, expecting single vector) ---
+#ifndef USE_TEST_HARNESS
+// LeetCode submission mode - direct solution
+int main() {
+    // Add your LeetCode main code here if needed
+    return 0;
+}
+#endif
+// ==================== END LEETCODE SUBMISSION ====================
+
+#ifdef USE_TEST_HARNESS
+// Test harness mode - for local testing
+#include "TestHarness.h"
+
 int main() {
     Solution sol;
 
@@ -98,4 +110,7 @@ int main() {
             1000
         );
     }
+
+    return 0;
 }
+#endif

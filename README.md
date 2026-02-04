@@ -1,7 +1,7 @@
 # Competitive Programming Resuscitation (CPR)
 
-**For:** Competitive programmers, DSA practitioners, and interview prep learners  
-**Problem:** You write code locally with debug output, but submissions to LeetCode/AtCoder require clean code without debug statements. You spend time manually cleaning code, risk introducing bugs, and manage test cases separately.  
+**For:** Competitive programmers, DSA practitioners, and interview prep learners
+**Problem:** You write code locally with debug output, but submissions to LeetCode/AtCoder require clean code without debug statements. You spend time manually cleaning code, risk introducing bugs, and manage test cases separately.
 **Solution:** CPR is an integrated C++ environment where you write once with debugging, test locally with visual debug output, and extract clean submission code automatically—no manual cleanup, no errors.
 
 **In one sentence:** Write messy debug code locally → test with rich, intuitive visualizations → one command extracts judge-ready code → copy-paste to LeetCode/AtCoder/Codeforces for submission.

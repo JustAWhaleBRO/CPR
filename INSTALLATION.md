@@ -145,11 +145,11 @@ make run l-deque       # Should show test results
 
 ## IDE Setup (Optional)
 
-**CLion:** 
+**CLion:**
 1. File → Open → Select `<CPR_PATH>` folder
 2. CLion auto-detects CMakeLists.txt
 
-**VS Code:** 
+**VS Code:**
 1. Install C/C++ (Microsoft) and CMake Tools extensions
 2. Open `<CPR_PATH>` folder
 3. Configure CMake when prompted
@@ -157,6 +157,7 @@ make run l-deque       # Should show test results
 ---
 
 → **Next:** [README.md](README.md) for usage, [CMD_REFERENCE.md](CMD_REFERENCE.md) for commands
+
 
 
 

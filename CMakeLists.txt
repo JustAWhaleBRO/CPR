@@ -18,11 +18,8 @@ foreach(SOURCE_FILE ${PROBLEM_SOURCES})
     # Create executable
     add_executable(${EXECUTABLE_NAME} ${SOURCE_FILE})
 
-    # Add USE_TEST_HARNESS for all directories EXCEPT leetcode
-    # This means: at_coder, codeforces, interview, misc, and ANY future directories
-    # will automatically use the dual-mode pattern without needing to update this file
-    # LeetCode problems include TestHarness.h directly without the flag
-    if(NOT SOURCE_FILE MATCHES "src/leetcode/")
-        target_compile_definitions(${EXECUTABLE_NAME} PRIVATE USE_TEST_HARNESS)
-    endif()
+    # Add USE_TEST_HARNESS for ALL problem directories
+    # This works for: at_coder, leetcode, codeforces, interview, misc, and ANY future directories
+    # All problems now use the dual-mode pattern with #ifdef USE_TEST_HARNESS
+    target_compile_definitions(${EXECUTABLE_NAME} PRIVATE USE_TEST_HARNESS)
 endforeach()
