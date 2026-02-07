@@ -52,9 +52,7 @@ run:
 	fi
 	@TARGET="$(word 1,$(filter-out $@,$(MAKECMDGOALS)))"; \
 	TESTNAME="$(word 2,$(filter-out $@,$(MAKECMDGOALS)))"; \
-	echo "Building $$TARGET..."; \
-	cmake --build $(BUILD_DIR) --target $$TARGET && \
-	echo "Running $$TARGET..."; \
+	cmake --build $(BUILD_DIR) --target $$TARGET > /dev/null && \
 	$(BUILD_DIR)/$$TARGET $$TESTNAME
 
 # Build and run WITH debug output: make run-debug TARGET [TESTNAME]
@@ -67,9 +65,7 @@ run-debug:
 	fi
 	@TARGET="$(word 1,$(filter-out $@,$(MAKECMDGOALS)))"; \
 	TESTNAME="$(word 2,$(filter-out $@,$(MAKECMDGOALS)))"; \
-	echo "Building $$TARGET..."; \
-	cmake --build $(BUILD_DIR) --target $$TARGET && \
-	echo "Running $$TARGET with debug output..."; \
+	cmake --build $(BUILD_DIR) --target $$TARGET > /dev/null && \
 	DEBUG_ENABLED=1 $(BUILD_DIR)/$$TARGET $$TESTNAME
 
 # Alias for run

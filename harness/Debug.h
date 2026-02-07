@@ -658,7 +658,7 @@ void dbgDP2D(const std::string& name, const std::vector<std::vector<T>>& dp, int
     std::cerr << C_RESET << std::endl;
 
     // Separator line
-    std::cerr << C_DIM << std::string(firstColW, ' ') << " +" << std::string((maxW + 1) * cols, '-') << C_RESET << std::endl;
+    std::cerr << C_DIM << std::string(static_cast<size_t>(firstColW), ' ') << " +" << std::string(static_cast<size_t>((maxW + 1)) * cols, '-') << C_RESET << std::endl;
 
     // Data rows
     for (size_t i = 0; i < rows; i++) {
@@ -715,7 +715,7 @@ void dbgDP2D(const std::string& name, T (&dp)[R][C], int line,
     std::cerr << C_RESET << std::endl;
 
     // Separator
-    std::cerr << C_DIM << std::string(firstColW, ' ') << " +" << std::string((maxW + 1) * C, '-') << C_RESET << std::endl;
+    std::cerr << C_DIM << std::string(static_cast<size_t>(firstColW), ' ') << " +" << std::string(static_cast<size_t>((maxW + 1)) * C, '-') << C_RESET << std::endl;
 
     // Data
     for (size_t i = 0; i < R; i++) {
@@ -788,12 +788,13 @@ void dbgRange(const std::string& name, const std::vector<T>& v, size_t l, size_t
     do { if (isDebugEnabled()) { dbgRange(#v, v, l, r, __LINE__); } } while(0)
 
 // ==================== TREE DEBUG (parent array representation) ====================
-inline void dbgTree(const std::string& name, const std::vector<int>& parent, int line) {
+template<typename T>
+void dbgTree(const std::string& name, const std::vector<T>& parent, int line) {
     std::cerr << C_CYAN << "[" << line << "] " << C_YELLOW << name << C_RESET
               << " (tree, " << parent.size() << " nodes):" << std::endl;
 
     for (size_t i = 0; i < parent.size(); i++) {
-        if (parent[i] == -1) {
+        if (parent[i] == static_cast<T>(-1) || parent[i] < 0) {
             std::cerr << "  " << C_GREEN << i << C_RESET << " (root)" << std::endl;
         } else {
             std::cerr << "  " << C_GREEN << i << C_RESET << " ← " << C_BLUE << parent[i] << C_RESET << std::endl;

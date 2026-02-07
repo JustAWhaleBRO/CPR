@@ -1,13 +1,36 @@
 // ==================== ATCODER SUBMISSION (copy from here) ====================
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <climits>
+#include "Debug.h"
 
 using namespace std;
 using ll = long long;
 
 ll solve(int N, const vector<ll>& a) {
-    // TODO: Implement the solution
-    return 0;
+    // Minimum cost of combining continuous interval [i, j] into one vertex
+    vector<vector<ll>> dp(N, vector<ll>(N, LLONG_MAX));
+    vector<ll> prefix_sum(N + 1);
+
+    for (int j = 0; j < N; j++) {
+        prefix_sum[j + 1] = a[j] + prefix_sum[j];
+
+        for (int i = j; i >= 0; i--) {
+            if (i == j) {
+                dp[i][j] = 0;
+
+            } else {
+                ll range_sum = prefix_sum[j + 1] - prefix_sum[i];
+
+                for (int k = i; k < j; k++) {
+                    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + range_sum);
+                }
+            }
+            dbg_dp2d_labeled(dp, "i", "j");
+        }
+    }
+    return dp[0][N - 1];
 }
 
 #ifndef USE_TEST_HARNESS
