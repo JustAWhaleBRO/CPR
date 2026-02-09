@@ -127,6 +127,13 @@ cmd_extract_file() {
 # Main entry point - determine which command to run based on how script was invoked
 COMMAND_NAME=$(basename "$0" .sh)
 
+# Check if first argument is a subcommand
+if [ "$1" = "extract-file" ]; then
+    shift
+    cmd_extract_file "$1"
+    exit 0
+fi
+
 case "$COMMAND_NAME" in
     extract|extract_atcoder)
         cmd_extract "$1"
@@ -135,20 +142,8 @@ case "$COMMAND_NAME" in
         cmd_extract_file "$1"
         ;;
     *)
-        # If called directly, check first argument for subcommand
-        case "$1" in
-            extract-file)
-                shift
-                cmd_extract_file "$1"
-                ;;
-            extract|*)
-                # Default to extract if no subcommand or unknown subcommand
-                if [ "$1" = "extract" ]; then
-                    shift
-                fi
-                cmd_extract "$1"
-                ;;
-        esac
+        # Default to extract
+        cmd_extract "$1"
         ;;
 esac
 
