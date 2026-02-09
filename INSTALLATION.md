@@ -92,10 +92,10 @@ cd ~/projects/competitive-programming
 cd /home/user/dev/CPR
 ```
 
-### 3. Setup Extract Command
+### 3. Setup Extract Commands
 
 
-One-time setup for the `extract` command:
+One-time setup for the `extract` and `extract-file` commands:
 
 **Replace `<CPR_PATH>` with your actual project path:**
 
@@ -103,12 +103,14 @@ One-time setup for the `extract` command:
 # Make executable
 chmod +x <CPR_PATH>/src/at_coder/extract_atcoder.sh
 
-# Add alias (zsh)
+# Add aliases (zsh)
 echo 'alias extract="<CPR_PATH>/src/at_coder/extract_atcoder.sh"' >> ~/.zshrc
+echo 'alias extract-file="<CPR_PATH>/src/at_coder/extract_atcoder.sh extract-file"' >> ~/.zshrc
 source ~/.zshrc
 
 # For bash, use ~/.bashrc instead
 # echo 'alias extract="<CPR_PATH>/src/at_coder/extract_atcoder.sh"' >> ~/.bashrc
+# echo 'alias extract-file="<CPR_PATH>/src/at_coder/extract_atcoder.sh extract-file"' >> ~/.bashrc
 # source ~/.bashrc
 ```
 
@@ -116,6 +118,7 @@ source ~/.zshrc
 ```bash
 chmod +x /home/user/projects/CPR/src/at_coder/extract_atcoder.sh
 echo 'alias extract="/home/user/projects/CPR/src/at_coder/extract_atcoder.sh"' >> ~/.zshrc
+echo 'alias extract-file="/home/user/projects/CPR/src/at_coder/extract_atcoder.sh extract-file"' >> ~/.zshrc
 source ~/.zshrc
 ```
 

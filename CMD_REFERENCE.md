@@ -11,7 +11,8 @@ make build                           # Build all
 make list                            # List targets
 make clean                           # Clean build
 make help                            # Show help
-extract <problem>                    # AtCoder submission (from anywhere in CPR)
+extract <problem>                    # Extract submission code to stdout
+extract-file <problem>               # Extract submission code to file
 ```
 
 ---
@@ -55,7 +56,9 @@ make run-debug l-deque Sample4
 make run l-deque
 
 # 4. Extract for submission (from anywhere in CPR)
-extract l-deque
+extract l-deque              # Print to stdout for copying
+# OR
+extract-file l-deque         # Save to <problem>_clean.cpp file
 ```
 
 ---

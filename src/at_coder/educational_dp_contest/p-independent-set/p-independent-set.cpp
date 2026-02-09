@@ -7,9 +7,37 @@ using ll = long long;
 
 const ll MOD = 1e9 + 7;
 
+void self_mul(int &a, int b) {
+    a = (ll) a * (b % MOD) % MOD;
+}
+
+void dfs(int v, int parent, vector<vector<int>> &dp, const vector<vector<int>> &adj) {
+    dp[v][0] = 1;
+    dp[v][1] = 1;
+
+    for (int neighbor : adj[v]) {
+        if (neighbor != parent) {
+            dfs(neighbor, v, dp, adj);
+
+            self_mul(dp[v][0], dp[neighbor][1] + dp[neighbor][0]);
+            self_mul(dp[v][1], dp[neighbor][0]);
+        }
+    }
+}
+
 ll solve(int N, const vector<int>& x, const vector<int>& y) {
-    // TODO: Implement the solution
-    return 0;
+    vector<vector<int>> adj(N + 1);
+    for (int i = 0; i < N - 1; i++) {
+        adj[x[i]].emplace_back(y[i]);
+        adj[y[i]].emplace_back(x[i]);
+    }
+
+    // dp[i][j] number of ways to color the subtree rooted at i
+    // given i is painted white (j = 0) / black (j = 1)
+    vector<vector<int>> dp(N + 1, vector<int>(2));
+    dfs(1, -1, dp, adj);
+
+    return ((ll) dp[1][0] + dp[1][1]) % MOD;
 }
 
 #ifndef USE_TEST_HARNESS
@@ -71,8 +99,8 @@ int main(int argc, char* argv[]) {
     // Expected: 157
     runTest("Sample4", solver, 157LL, 500,
         10,
-        vector<int>{1, 2, 3, 4, 5, 6, 7, 8, 9},
-        vector<int>{2, 3, 4, 5, 6, 7, 8, 9, 10}
+        vector<int>{8, 10, 6, 1, 4, 2, 3, 9, 1},
+        vector<int>{5, 8, 5, 5, 8, 10, 6, 2, 7}
     );
 
     return 0;
