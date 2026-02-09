@@ -114,12 +114,6 @@ cmd_extract_file() {
     extract_code "$source_file" > "$output_file"
 
     echo "Clean submission code extracted to: $output_file"
-    echo ""
-    echo "File contents:"
-    echo "=============================================="
-    cat "$output_file"
-    echo ""
-    echo "=============================================="
 }
 
 # Main entry point
