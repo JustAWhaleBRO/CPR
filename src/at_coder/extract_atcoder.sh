@@ -2,12 +2,12 @@
 # Extract submission code from a dual-mode file
 # Usage:
 #   extract <problem_name>       - Print clean code to stdout (for copying)
-#   extract-file <problem_name>  - Save clean code to a file in the problem directory
+#   extract -f <problem_name>    - Save clean code to a file in the problem directory
 #
 # Can be run from anywhere inside the CPR project
 # Searches across all src subdirectories (at_coder, cses, leetcode, etc.)
 # Example: extract z-frog1
-#          extract-file two-sets
+#          extract -f two-sets
 
 # Get the src directory (parent of this script's location)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -55,18 +55,24 @@ extract_code() {
         grep -E -v '^[[:space:]]*cdbg'
 }
 
-# Command: extract
+# Show usage
+show_usage() {
+    echo "Usage: extract [-f] <problem_name>"
+    echo ""
+    echo "Options:"
+    echo "  -f    Save clean code to <problem>_clean.cpp file instead of stdout"
+    echo ""
+    echo "Examples:"
+    echo "  extract z-frog1      # Print to stdout for copying"
+    echo "  extract -f z-frog1   # Save to z-frog1_clean.cpp"
+    echo ""
+    echo "Can be run from anywhere inside the CPR project."
+    echo "Searches across all src subdirectories (at_coder, cses, leetcode, etc.)"
+}
+
+# Command: extract to stdout
 cmd_extract() {
     local problem_name="$1"
-
-    if [ -z "$problem_name" ]; then
-        echo "Usage: extract <problem_name>"
-        echo "Example: extract z-frog1"
-        echo ""
-        echo "Prints the clean submission code to stdout for copying."
-        echo "Can be run from anywhere inside the CPR project."
-        exit 1
-    fi
 
     local problem_dir
     problem_dir=$(find_problem_dir "$problem_name") || exit 1
@@ -89,17 +95,9 @@ cmd_extract() {
     echo "Copy the above code and paste it into the judge"
 }
 
-# Command: extract-file
+# Command: extract to file
 cmd_extract_file() {
     local problem_name="$1"
-
-    if [ -z "$problem_name" ]; then
-        echo "Usage: extract-file <problem_name>"
-        echo "Example: extract-file z-frog1"
-        echo ""
-        echo "Creates a clean submission file in the problem directory."
-        exit 1
-    fi
 
     local problem_dir
     problem_dir=$(find_problem_dir "$problem_name") || exit 1
@@ -124,26 +122,40 @@ cmd_extract_file() {
     echo "=============================================="
 }
 
-# Main entry point - determine which command to run based on how script was invoked
-COMMAND_NAME=$(basename "$0" .sh)
+# Main entry point
+FILE_MODE=false
 
-# Check if first argument is a subcommand
-if [ "$1" = "extract-file" ]; then
-    shift
-    cmd_extract_file "$1"
-    exit 0
+# Parse options
+while getopts "fh" opt; do
+    case $opt in
+        f)
+            FILE_MODE=true
+            ;;
+        h)
+            show_usage
+            exit 0
+            ;;
+        \?)
+            show_usage
+            exit 1
+            ;;
+    esac
+done
+
+# Shift past options
+shift $((OPTIND - 1))
+
+# Get problem name
+PROBLEM_NAME="$1"
+
+if [ -z "$PROBLEM_NAME" ]; then
+    show_usage
+    exit 1
 fi
 
-case "$COMMAND_NAME" in
-    extract|extract_atcoder)
-        cmd_extract "$1"
-        ;;
-    extract-file)
-        cmd_extract_file "$1"
-        ;;
-    *)
-        # Default to extract
-        cmd_extract "$1"
-        ;;
-esac
-
+# Run appropriate command
+if [ "$FILE_MODE" = true ]; then
+    cmd_extract_file "$PROBLEM_NAME"
+else
+    cmd_extract "$PROBLEM_NAME"
+fi

@@ -26,27 +26,25 @@ For bash, use `~/.bashrc` instead. For different paths, adjust accordingly.
 From **anywhere** inside the CPR project:
 
 ```bash
-# From project root
-cd ~/<YOUR-CPR-PATH>/CPR
+# Print to stdout (for copying)
 extract i-coins
 
-# From leetcode directory
+# Save to file (creates i-coins_clean.cpp in problem directory)
+extract -f i-coins
+
+# Works from any directory
 cd src/leetcode
 extract h-grid1
 
-# From harness directory
 cd harness
-extract l-deque
-
-# From at_coder or any subdirectory
-cd src/at_coder/educational_dp_contest
-extract i-coins
+extract -f l-deque
 ```
 
 The script:
-1. Finds the problem folder anywhere under `at_coder/`
-2. Extracts code between `ATCODER SUBMISSION` markers
-3. Outputs clean submission-ready code
+1. Finds the problem folder anywhere under `src/`
+2. Extracts code between `SUBMISSION` markers
+3. Removes debug code (`#include "Debug.h"`, `dbg()` calls, etc.)
+4. Outputs clean submission-ready code
 
 ---
 
@@ -78,7 +76,7 @@ at_coder/
 | Issue | Solution |
 |-------|----------|
 | `command not found: extract` | `source ~/.zshrc` or restart terminal |
-| `Problem folder not found` | Check spelling or verify folder exists in `at_coder/` |
+| `Problem folder not found` | Check spelling or verify folder exists in `src/` |
 | Not executable | `chmod +x src/at_coder/extract_atcoder.sh` |
 
 ---
