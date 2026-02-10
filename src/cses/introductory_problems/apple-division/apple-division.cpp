@@ -46,6 +46,9 @@ int main(int argc, char* argv[]) {
     // Two elements
     runTest("Sample3", solver, 1LL, 1000, 2, vector<int>{1, 2});
 
+    // Single element
+    runTest("Sample4", solver, 5LL, 1000, 1, vector<int>{5});
+
     return 0;
 }
 #endif

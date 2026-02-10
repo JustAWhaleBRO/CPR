@@ -1,9 +1,7 @@
-// ==================== CSES SUBMISSION (copy from here) ====================
 #include <iostream>
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "Debug.h"
 using namespace std;
 
 string solve(const string& s) {
@@ -12,8 +10,6 @@ string solve(const string& s) {
         freq[c - 'A']++;
     }
     int n = freq.size();
-    dbg(s);
-    dbg(freq);
 
     char odd_char = -1;
     for (int i = 0; i < n; i++) {
@@ -22,21 +18,17 @@ string solve(const string& s) {
             odd_char = i + 'A';
         }
     }
-    dbg(odd_char);
 
     string res = "";
-    dbg_section("Building first half");
     for (int i = 0; i < n; i++) {
         char c = i + 'A';
 
         if (c == odd_char) {
-            dbg("Skipping odd_char for now", c);
             continue;
         }
 
         for (int k = 0; k < freq[i] / 2; k++) {
             res.push_back(c);
-            dbg("Added to first half", c, res);
         }
     }
 
@@ -46,22 +38,17 @@ string solve(const string& s) {
 
     if (odd_char != -1) {
         int odd_char_idx = odd_char - 'A';
-        dbg_section("Adding odd char");
         for (int i = 0; i < freq[odd_char_idx]; i++) {
             res.push_back(odd_char);
         }
     }
-    dbg(res);
 
     // Append the second half
     res += right_half;
 
-    dbg_section("Final result");
-    dbg(res);
     return res;
 }
 
-#ifndef USE_TEST_HARNESS
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -71,31 +58,3 @@ int main() {
     cout << solve(s) << "\n";
     return 0;
 }
-#endif
-// ==================== END CSES SUBMISSION ====================
-
-#ifdef USE_TEST_HARNESS
-#include "TestHarness.h"
-
-int main(int argc, char* argv[]) {
-    PARSE_TEST_ARGS(argc, argv);
-
-    auto solver = [](const string& s) -> string {
-        return solve(s);
-    };
-
-    // Sample 1: AAAACACBA -> AACABACAA (or similar)
-    runTest("Sample1", solver, string("AAACBCAAA"), 1000, string("AAAACACBA"));
-
-    // Impossible case
-    runTest("Sample2", solver, string("NO SOLUTION"), 1000, string("ABC"));
-
-    // Single char
-    runTest("Sample3", solver, string("A"), 1000, string("A"));
-
-    // Two same chars
-    runTest("Sample4", solver, string("AA"), 1000, string("AA"));
-
-    return 0;
-}
-#endif

@@ -31,11 +31,17 @@ int main(int argc, char* argv[]) {
         return solve(s);
     };
 
-    // Sample: reorder string so no adjacent characters are the same
-    runTest("Sample1", solver, string("acacac"), 1000, string("aaccac"));
+    // CSES Example: HATTIVATTI -> AHATITITVT
+    runTest("Sample1", solver, string("AHATITITVT"), 1000, string("HATTIVATTI"));
 
-    // Impossible case
-    runTest("Sample2", solver, string("-1"), 1000, string("aaa"));
+    // Impossible case: all same chars
+    runTest("Sample2", solver, string("-1"), 1000, string("AAA"));
+
+    // Simple two chars
+    runTest("Sample3", solver, string("ABA"), 1000, string("AAB"));
+
+    // Already valid single char
+    runTest("Sample4", solver, string("A"), 1000, string("A"));
 
     return 0;
 }

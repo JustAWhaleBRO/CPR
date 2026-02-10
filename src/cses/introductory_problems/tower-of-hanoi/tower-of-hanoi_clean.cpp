@@ -1,7 +1,5 @@
-// ==================== CSES SUBMISSION (copy from here) ====================
 #include <vector>
 #include <iostream>
-#include "Debug.h";
 using namespace std;
 
 class Towers {
@@ -43,7 +41,6 @@ public:
 };
 
 
-#ifndef USE_TEST_HARNESS
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -54,39 +51,3 @@ int main() {
     towers.solve();
     return 0;
 }
-#endif
-// ==================== END CSES SUBMISSION ====================
-
-#ifdef USE_TEST_HARNESS
-#include "TestHarness.h"
-#include <sstream>
-
-int main(int argc, char* argv[]) {
-    PARSE_TEST_ARGS(argc, argv);
-
-    auto solver = [](int n) -> string {
-        ostringstream oss;
-        streambuf* old = cout.rdbuf(oss.rdbuf());
-        Towers towers(n);
-        towers.solve();
-        cout.rdbuf(old);
-        string result = oss.str();
-        if (!result.empty() && result.back() == '\n') result.pop_back();
-        return result;
-    };
-
-    // Sample 1: n=2 -> 3 moves (CSES example)
-    runTest("Sample1", solver, string("3\n1 2\n1 3\n2 3"), 1000, 2);
-
-    // n=1
-    runTest("Sample2", solver, string("1\n1 3"), 1000, 1);
-
-    // n=3 -> 7 moves
-    runTest("Sample3", solver, string("7\n1 3\n1 2\n3 2\n1 3\n2 1\n2 3\n1 3"), 1000, 3);
-
-    // n=4 -> 15 moves
-    runTest("Sample4", solver, string("15\n1 2\n1 3\n2 3\n1 2\n3 1\n3 2\n1 2\n1 3\n2 3\n2 1\n3 1\n2 3\n1 2\n1 3\n2 3"), 1000, 4);
-
-    return 0;
-}
-#endif

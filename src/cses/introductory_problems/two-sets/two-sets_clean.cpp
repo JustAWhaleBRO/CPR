@@ -1,4 +1,3 @@
-// ==================== CSES SUBMISSION (copy from here) ====================
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -60,7 +59,6 @@ void solve(int n) {
     print_sol();
 }
 
-#ifndef USE_TEST_HARNESS
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -70,41 +68,3 @@ int main() {
     solve(n);
     return 0;
 }
-#endif
-// ==================== END CSES SUBMISSION ====================
-
-#ifdef USE_TEST_HARNESS
-#include "TestHarness.h"
-#include <sstream>
-
-int main(int argc, char* argv[]) {
-    PARSE_TEST_ARGS(argc, argv);
-
-    // Validator: check if output is valid (not exact match due to multiple solutions)
-    auto validator = [](int n) -> string {
-        ostringstream oss;
-        streambuf* old = cout.rdbuf(oss.rdbuf());
-        solve(n);
-        cout.rdbuf(old);
-        string result = oss.str();
-        if (!result.empty() && result.back() == '\n') result.pop_back();
-        return result;
-    };
-
-    // Sample 1: n=7 -> YES with valid partition
-    // Expected format: YES\n3\n... (but multiple valid solutions exist)
-    runTest("Sample1", validator, string("YES\n3\n7 6 1\n4\n5 4 3 2"), 1000, 7);
-
-    // Sample 2: n=6 -> NO (sum = 21, odd)
-    runTest("Sample2", validator, string("NO"), 1000, 6);
-
-    // n=3 -> YES (sum=6, split {3} and {1,2})
-    runTest("Sample3", validator, string("YES\n1\n3\n2\n2 1"), 1000, 3);
-
-    // n=4 -> YES (sum=10, split {4,1} and {3,2})
-    runTest("Sample4", validator, string("YES\n2\n4 1\n2\n3 2"), 1000, 4);
-
-    return 0;
-}
-#endif
-

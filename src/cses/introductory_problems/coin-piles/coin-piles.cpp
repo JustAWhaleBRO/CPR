@@ -1,11 +1,18 @@
 // ==================== CSES SUBMISSION (copy from here) ====================
 #include <iostream>
+#include "Debug.h"
 using namespace std;
 using ll = long long;
 
 string solve(ll a, ll b) {
-    // TODO: Implement solution
-    return "";
+    if (max(a, b) > 2 * min(a, b)) {
+        return "NO";
+    }
+    ll sum = 10 * a + b;
+    if (sum % 3 ==0) {
+        return "YES";
+    }
+    return "NO";
 }
 
 #ifndef USE_TEST_HARNESS
@@ -46,6 +53,9 @@ int main(int argc, char* argv[]) {
 
     // (0, 0) -> YES (already empty)
     runTest("Sample4", solver, string("YES"), 1000, 0LL, 0LL);
+
+    // (11, 4) -> NO
+    runTest("Sample5", solver, string("NO"), 1000, 11LL, 4LL);
 
     return 0;
 }

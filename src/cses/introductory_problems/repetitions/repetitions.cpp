@@ -4,8 +4,17 @@
 using namespace std;
 
 int solve(const string& s) {
-    // TODO: Implement solution
-    return 0;
+    int longest = 1;
+    int curr_len = 1;
+    for (int i = 0; i < (int) s.size(); i++) {
+        if (s[i] == s[i - 1]) {
+            curr_len++;
+            longest = max(longest, curr_len);
+        } else {
+            curr_len = 1;
+        }
+    }
+    return longest;
 }
 
 #ifndef USE_TEST_HARNESS
@@ -39,6 +48,9 @@ int main(int argc, char* argv[]) {
 
     // Additional: all same
     runTest("Sample3", solver, 5, 1000, string("AAAAA"));
+
+    // Alternating
+    runTest("Sample4", solver, 1, 1000, string("ACACAC"));
 
     return 0;
 }

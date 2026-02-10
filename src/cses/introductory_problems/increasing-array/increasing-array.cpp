@@ -1,12 +1,19 @@
 // ==================== CSES SUBMISSION (copy from here) ====================
 #include <iostream>
 #include <vector>
+#include "Debug.h"
 using namespace std;
 using ll = long long;
 
-ll solve(int n, const vector<int>& arr) {
-    // TODO: Implement solution
-    return 0;
+ll solve(int n, vector<int> arr) {
+    ll move_counts = 0;
+    for (int i = 1; i < n; i++) {
+        if (arr[i] < arr[i - 1]) {
+            move_counts += arr[i - 1] - arr[i];
+            arr[i] = arr[i - 1];
+        }
+    }
+    return move_counts;
 }
 
 #ifndef USE_TEST_HARNESS
@@ -32,7 +39,7 @@ int main() {
 int main(int argc, char* argv[]) {
     PARSE_TEST_ARGS(argc, argv);
 
-    auto solver = [](int n, const vector<int>& arr) -> ll {
+    auto solver = [](int n, vector<int> arr) -> ll {
         return solve(n, arr);
     };
 
@@ -44,6 +51,9 @@ int main(int argc, char* argv[]) {
 
     // Additional: decreasing
     runTest("Sample3", solver, 3LL, 1000, 3, vector<int>{3, 2, 1});
+
+    // Single element
+    runTest("Sample4", solver, 0LL, 1000, 1, vector<int>{5});
 
     return 0;
 }

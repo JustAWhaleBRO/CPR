@@ -44,6 +44,9 @@ int main(int argc, char* argv[]) {
     // Sample 3: position 12 -> '1' (in "11")
     runTest("Sample3", solver, '1', 1000, 12LL);
 
+    // position 1 -> '1'
+    runTest("Sample4", solver, '1', 1000, 1LL);
+
     return 0;
 }
 #endif

@@ -1,11 +1,20 @@
 // ==================== CSES SUBMISSION (copy from here) ====================
+#include <vector>
 #include <iostream>
 using namespace std;
 using ll = long long;
 
-ll solve(ll n) {
-    // TODO: Implement solution
-    return 0;
+ll solve(int n) {
+    int board_size = n * n;
+    ll all_ways = (ll) board_size * (board_size - 1) / 2;
+
+    ll bad_ways = (n - 4) * (n - 4) * 8;
+    bad_ways += (n - 4) * 4 * 6;
+    bad_ways += (n - 3) * 4 * 4;
+    bad_ways += 8 * 3 + 4 * 2;
+    bad_ways /= 2;
+
+    return all_ways - bad_ways;
 }
 
 #ifndef USE_TEST_HARNESS
@@ -48,6 +57,9 @@ int main(int argc, char* argv[]) {
 
     // n=5
     runTest("Sample3", solver, string("0\n6\n28\n96\n252"), 1000, 5);
+
+    // n=1
+    runTest("Sample4", solver, string("0"), 1000, 1);
 
     return 0;
 }

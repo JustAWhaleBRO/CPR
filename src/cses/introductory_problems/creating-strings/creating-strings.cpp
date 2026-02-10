@@ -39,11 +39,17 @@ int main(int argc, char* argv[]) {
         return result;
     };
 
-    // Sample 1: aabac
-    runTest("Sample1", solver, string("20\naaabc\naabac\naabca\naacab\naacba\nabaca\nabcaa\nacaab\nacaba\nacbaa\nbaaac\nbaaca\nbacaa\nbcaaa\ncaaab\ncaaba\ncabaa\ncbaaa"), 1000, string("aabac"));
+    // Sample 1: aabac -> 20 distinct permutations
+    runTest("Sample1", solver, string("20\naaabc\naaacb\naabac\naabca\naacab\naacba\nabaac\nabaca\nabcaa\nacaab\nacaba\nacbaa\nbaaac\nbaaca\nbacaa\nbcaaa\ncaaab\ncaaba\ncabaa\ncbaaa"), 1000, string("aabac"));
 
     // Single char
     runTest("Sample2", solver, string("1\na"), 1000, string("a"));
+
+    // Two distinct chars
+    runTest("Sample3", solver, string("2\nab\nba"), 1000, string("ab"));
+
+    // All same chars
+    runTest("Sample4", solver, string("1\naaa"), 1000, string("aaa"));
 
     return 0;
 }

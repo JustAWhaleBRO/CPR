@@ -40,6 +40,9 @@ int main(int argc, char* argv[]) {
     // Specific complete path -> 1
     runTest("Sample3", solver, 1LL, 1000, string("DRURRRRRDDDLUULDDDLDRRURDDLLLLLURULURRUULDLLDDDD"));
 
+    // Start going down -> constrained
+    runTest("Sample4", solver, 0LL, 1000, string("UURRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"));
+
     return 0;
 }
 #endif

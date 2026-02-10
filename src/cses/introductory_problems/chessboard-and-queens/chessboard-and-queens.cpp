@@ -36,15 +36,15 @@ int main(int argc, char* argv[]) {
         return solve(grid);
     };
 
-    // Sample 1: some reserved squares -> 65
+    // CSES Example: reserved squares -> 65
     runTest("Sample1", solver, 65, 1000, vector<string>{
         "........",
         "........",
         "..*.....",
         "........",
         "........",
-        ".....*.*",
-        "........",
+        ".....**.",
+        "...*....",
         "........"
     });
 
@@ -60,8 +60,8 @@ int main(int argc, char* argv[]) {
         "........"
     });
 
-    // Blocked first row partial
-    runTest("Sample3", solver, 5, 1000, vector<string>{
+    // Blocked first row partial -> queen forced to col 7
+    runTest("Sample3", solver, 8, 1000, vector<string>{
         "******.*",
         "........",
         "........",
@@ -70,6 +70,18 @@ int main(int argc, char* argv[]) {
         "........",
         "........",
         "........"
+    });
+
+    // All blocked -> 0 solutions
+    runTest("Sample4", solver, 0, 1000, vector<string>{
+        "********",
+        "********",
+        "********",
+        "********",
+        "********",
+        "********",
+        "********",
+        "********"
     });
 
     return 0;
